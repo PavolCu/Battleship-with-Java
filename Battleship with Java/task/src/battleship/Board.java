@@ -1,6 +1,8 @@
 package battleship;
 
 import java.util.Arrays;
+
+
 public class Board {
 
     private static int BOARD_SIZE = 10; // Assumed size
@@ -11,37 +13,37 @@ public class Board {
             Arrays.fill(board[i], '~');
         }
     }
-    public boolean placeShip(Ship ship, Coordinate start, Coordinate end) {
-        if(!isPlacementValid(start, end)) {
+
+
+    public boolean isPlacementValid(Coordinate start, Coordinate end, int length) {
+        // Calculate the distance between the start and end coordinates
+        int distance = Coordinate.calculateDistance(start, end) + 1;
+
+        // Check if the distance matches the length of the ship
+        if(distance != length) {
             return false;
         }
 
-        if(start.getRow() == end.getRow()) {
-            return placeHorizontally(ship, start, end);
-        } else {
-            return placeVertically(ship, start, end);
+        // Check if the ship fits into the board
+        if(start.getRow() < 0 || start.getRow() >= BOARD_SIZE || start.getCol() < 0 || start.getCol() >= BOARD_SIZE ||
+                end.getRow() < 0 || end.getRow() >= BOARD_SIZE || end.getCol() < 0 || end.getCol() >= BOARD_SIZE) {
+            return false;
         }
-    }
 
-    private boolean isPlacementValid(Coordinate start, Coordinate end) {
-        if(start.getRow() != end.getRow() && start.getCol() != end.getCol()) {
-            return false;
+        // Check if the ship overlaps with other ships or if it doesn't leave enough space around it
+        for(int i = Math.min(start.getRow(), end.getRow()) - 1; i <= Math.max(start.getRow(), end.getRow()) + 1; i++) {
+            for(int j = Math.min(start.getCol(), end.getCol()) - 1; j <= Math.max(start.getCol(), end.getCol()) + 1; j++) {
+                if(i >= 0 && i < BOARD_SIZE && j >= 0 && j < BOARD_SIZE && board[i][j] != '~') {
+                    return false;
+                }
+            }
         }
-        if(start.getRow() < 0 || start.getRow() >= BOARD_SIZE || start.getCol() < 0 || start.getCol() >= BOARD_SIZE) {
-            return false;
-        }
-        if (end.getRow() < 0 || end.getRow() >= BOARD_SIZE || end.getCol() < 0 || end.getCol() >= BOARD_SIZE) {
-            return false;
-        }
-        // This checks if the ship is placed diagonally
-        if (Math.abs(start.getRow() - end.getRow()) == Math.abs(start.getCol() - end.getCol())) {
-            return false;
-        }
+
         return true;
     }
 
 
-    private boolean placeVertically(Ship ship, Coordinate start, Coordinate end) {
+    public boolean placeVertically(Ship ship, Coordinate start, Coordinate end) {
         int startRow = Math.min(start.getRow(), end.getRow());
         int endRow = Math.max(start.getRow(), end.getRow());
         int col = start.getCol();
@@ -62,7 +64,7 @@ public class Board {
     }
 
 
-    private boolean placeHorizontally(Ship ship, Coordinate start, Coordinate end) {
+    public boolean placeHorizontally(Ship ship, Coordinate start, Coordinate end) {
         int startCol = Math.min(start.getCol(), end.getCol());
         int endCol = Math.max(start.getCol(), end.getCol());
         int row = start.getRow();
