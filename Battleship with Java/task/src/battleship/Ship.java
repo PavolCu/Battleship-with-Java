@@ -1,6 +1,7 @@
 package battleship;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Ship {
@@ -13,6 +14,10 @@ public class Ship {
         this.name = name;
         this.length = length;
         this.coordinates = new ArrayList<>();
+    }
+
+    public static List<Ship> createShips() {
+        return ships;
     }
 
     public String getName() {
@@ -60,4 +65,12 @@ public class Ship {
 
         return false;
     }
+
+    public static List<Ship> ships = Arrays.asList(
+            new Ship("Aircraft Carrier", 5),
+            new Ship("Battleship", 4),
+            new Ship("Submarine", 3),
+            new Ship("Cruiser", 3),
+            new Ship("Destroyer", 2)
+    );
 }

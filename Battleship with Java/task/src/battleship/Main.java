@@ -13,13 +13,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        List<Ship> ships = Arrays.asList(
-                new Ship("Aircraft Carrier", 5),
-                new Ship("Battleship", 4),
-                new Ship("Submarine", 3),
-                new Ship("Cruiser", 3),
-                new Ship("Destroyer", 2)
-        );
+        List<Ship> ships = Ship.createShips();
 
         for (Ship ship : ships) {
             while (true) {
