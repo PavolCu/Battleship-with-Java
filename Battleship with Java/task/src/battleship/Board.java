@@ -34,6 +34,7 @@ public class Board {
         for(int i = Math.min(start.getRow(), end.getRow()) - 1; i <= Math.max(start.getRow(), end.getRow()) + 1; i++) {
             for(int j = Math.min(start.getCol(), end.getCol()) - 1; j <= Math.max(start.getCol(), end.getCol()) + 1; j++) {
                 if(i >= 0 && i < BOARD_SIZE && j >= 0 && j < BOARD_SIZE && board[i][j] != '~') {
+                    System.out.println("Error! You placed it too close to another one. Try again:");
                     return false;
                 }
             }
