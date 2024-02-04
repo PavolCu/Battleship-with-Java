@@ -37,20 +37,20 @@ public class Ship {
         coordinates.add(coordinate);
     }
 
-    public boolean placeShip(Board board, Coordinate start, Coordinate end) {
+    public String placeShip(Board board, Coordinate start, Coordinate end) {
+
+        if(start.getRow() != end.getRow() && start.getCol() != end.getCol()) {
+            return "Error! Wrong ship location! Try again:";
+        }
+
         int distance = Coordinate.calculateDistance(start, end) + 1;
         if(distance != this.length) {
-            System.out.println("Error! Wrong length of the " + this.name + "! Try again!:");
-            return false;
+            return "Error! Wrong length of the " + this.name + "! Try again:";
         }
 
-        if (start.getRow() != end.getRow() && start.getCol() != end.getCol()) {
-            System.out.println("Error! Wrong ship location! Try again:");
-            return false;
-        }
-
-        if(!board.isPlacementValid(start, end, this.length)) {
-            return false;
+        String placementError = board.isPlacementValid(start, end, this.length);
+        if(placementError != null) {
+            return placementError;
         }
 
         if(start.getRow() == end.getRow()) {
@@ -58,18 +58,18 @@ public class Ship {
                 for(int i = Math.min(start.getCol(), end.getCol()); i <= Math.max(start.getCol(), end.getCol()); i++) {
                     this.addCoordinate(new Coordinate(start.getRow(), i));
                 }
-                return true;
+                return null;
             }
         } else {
             if(board.placeVertically(this, start, end)) {
                 for(int i = Math.min(start.getRow(), end.getRow()); i <= Math.max(start.getRow(), end.getRow()); i++) {
                     this.addCoordinate(new Coordinate(i, start.getCol()));
                 }
-                return true;
+                return null;
             }
         }
 
-        return false;
+        return "Error! Coould not place the ship!";
     }
 
     public static List<Ship> ships = Arrays.asList(

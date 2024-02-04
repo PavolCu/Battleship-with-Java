@@ -1,9 +1,8 @@
 package battleship;
 
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+
 
 public class Main {
 
@@ -16,15 +15,17 @@ public class Main {
         List<Ship> ships = Ship.createShips();
 
         for (Ship ship : ships) {
+            System.out.println("Enter the coordinates of the " + ship.getName() + " (" + ship.getLength() + " cells):");
             while (true) {
-                System.out.println("Enter the coordinates of the " + ship.getName() + " (" + ship.getLength() + " cells):");
+
                 String[] input = scanner.nextLine().split(" ");
 
                 Coordinate start = parseCoordinate(input[0]);
                 Coordinate end = parseCoordinate(input[1]);
 
-                if (!ship.placeShip(board, start, end)) {
-                    System.out.println("Error! Wrong ship location! Try again:");
+                String error = ship.placeShip(board, start, end);
+                if (error != null) {
+                    System.out.println(error);
                     continue;
                 }
 

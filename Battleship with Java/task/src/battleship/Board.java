@@ -15,32 +15,32 @@ public class Board {
     }
 
 
-    public boolean isPlacementValid(Coordinate start, Coordinate end, int length) {
+    public String isPlacementValid(Coordinate start, Coordinate end, int length) {
         // Calculate the distance between the start and end coordinates
         int distance = Coordinate.calculateDistance(start, end) + 1;
 
         // Check if the distance matches the length of the ship
         if(distance != length) {
-            return false;
+            return  null;
         }
 
         // Check if the ship fits into the board
         if(start.getRow() < 0 || start.getRow() >= BOARD_SIZE || start.getCol() < 0 || start.getCol() >= BOARD_SIZE ||
                 end.getRow() < 0 || end.getRow() >= BOARD_SIZE || end.getCol() < 0 || end.getCol() >= BOARD_SIZE) {
-            return false;
+            return null;
         }
 
         // Check if the ship overlaps with other ships or if it doesn't leave enough space around it
         for(int i = Math.min(start.getRow(), end.getRow()) - 1; i <= Math.max(start.getRow(), end.getRow()) + 1; i++) {
             for(int j = Math.min(start.getCol(), end.getCol()) - 1; j <= Math.max(start.getCol(), end.getCol()) + 1; j++) {
                 if(i >= 0 && i < BOARD_SIZE && j >= 0 && j < BOARD_SIZE && board[i][j] != '~') {
-                    System.out.println("Error! You placed it too close to another one. Try again:");
-                    return false;
+                    return "Error! You placed it too close to another one. Try again:";
+
                 }
             }
         }
 
-        return true;
+        return null;
     }
 
 
