@@ -40,6 +40,12 @@ public class Ship {
     public boolean placeShip(Board board, Coordinate start, Coordinate end) {
         int distance = Coordinate.calculateDistance(start, end) + 1;
         if(distance != this.length) {
+            System.out.println("Error! Wrong length of the " + this.name + "! Try again!:");
+            return false;
+        }
+
+        if (start.getRow() != end.getRow() && start.getCol() != end.getCol()) {
+            System.out.println("Error! Wrong ship location! Try again:");
             return false;
         }
 
