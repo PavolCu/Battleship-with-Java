@@ -62,6 +62,9 @@ public class Ship {
             }
         } else {
             if(board.placeVertically(this, start, end)) {
+                if (board.placeShip(this, start, end, true)) {
+                    return null;
+                }
                 for(int i = Math.min(start.getRow(), end.getRow()); i <= Math.max(start.getRow(), end.getRow()); i++) {
                     this.addCoordinate(new Coordinate(i, start.getCol()));
                 }
@@ -72,6 +75,18 @@ public class Ship {
         return "Error! Coould not place the ship!";
     }
 
+    public boolean isHit(Coordinate target) {
+        return coordinates.contains(target);
+    }
+
+    public boolean isAlreadyHit(Coordinate target) {
+        if (coordinates.contains(target)) {
+            coordinates.remove(target);
+            return true;
+        }
+        return false;
+    }
+
     public static List<Ship> ships = Arrays.asList(
             new Ship("Aircraft Carrier", 5),
             new Ship("Battleship", 4),
@@ -79,4 +94,5 @@ public class Ship {
             new Ship("Cruiser", 3),
             new Ship("Destroyer", 2)
     );
+
 }
